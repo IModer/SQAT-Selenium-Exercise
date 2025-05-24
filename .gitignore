@@ -1,3 +1,4 @@
+selenium-xpaths.txt
 .gradle
 build
 .idea
@@ -7,3 +8,4 @@ run
 setup
 cred
 misc.md
+.vscode
