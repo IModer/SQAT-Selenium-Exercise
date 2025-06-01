@@ -5,31 +5,31 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 public class TrainerPageTests extends BaseTest {
-    /*
-    
+
     @Test
-    public void testTrainerPageElements() {
-        driver.get("http://liftzone.hu/?o=trainer");
-        TrainerPage trainerPage = new TrainerPage(driver);
+    public void testNavigateToTrainerPage() {
+        //Wait<WebDriver> wait = new WebDriverWait(driver, 110);
         
-        WebElement trainerName = trainerPage.getTrainerName();
-        assertTrue(trainerName.isDisplayed());
-        
-        WebElement trainerBio = trainerPage.getTrainerBio();
-        assertTrue(trainerBio.isDisplayed());
-        
-        WebElement trainerSchedule = trainerPage.getTrainerSchedule();
-        assertTrue(trainerSchedule.isDisplayed());
-        
-        WebElement bookSessionButton = trainerPage.getBookSessionButton();
-        assertTrue(bookSessionButton.isDisplayed());
-        
-        WebElement contactTrainerButton = trainerPage.getContactTrainerButton();
-        assertTrue(contactTrainerButton.isDisplayed());
+        LoginPage loginPage = new LoginPage(driver);
+        UserPage userPage = loginPage.login("pistike-teszt-user", "jelszojelszo1");
+        TrainerPage trainerPage = new TrainerPage(2, driver);
+        System.out.println(trainerPage.getBodyText());
+        //wait.until(d -> d.equals(null));
+        assertTrue(trainerPage.getTrainerNameField().getAttribute("value").contains("Gergő edzőke"));
     }
-    */
+
+    @Test
+    public void testWritingToTextField() {
+        LoginPage loginPage = new LoginPage(driver);
+        UserPage userPage = loginPage.login("pistike-teszt-user", "jelszojelszo1");
+        TrainerPage trainerPage = new TrainerPage(2, driver);
+        WebElement textarea = trainerPage.getTrainerFeedbackTextArea();
+        textarea.sendKeys("Nanon jo test");
+        assertTrue(textarea.getAttribute("value").contains("test"));
+    }
 }

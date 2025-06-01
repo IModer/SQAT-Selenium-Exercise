@@ -9,27 +9,22 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 public class ShopPageTests extends BaseTest {
-
-    /* @Test
-    public void testAddProductToCart() {
-        driver.get("http://liftzone.hu/?o=shop");
+    
+    @Test
+    public void testSwitchingtoPasses() {
         ShopPage shopPage = new ShopPage(driver);
-
-        WebElement category = shopPage.getProductCategory("Supplements");
-        assertTrue(category.isDisplayed());
-
-        WebElement product = shopPage.getProductItem("Protein Powder");
-        assertTrue(product.isDisplayed());
-
-        WebElement addToCartButton = shopPage.getAddToCartButton("Protein Powder");
-        addToCartButton.click();
-
-        WebElement cartIcon = shopPage.getCartIcon();
-        assertTrue(cartIcon.isDisplayed());
-
-        cartIcon.click();
-
-        WebElement checkoutButton = shopPage.getCheckoutButton();
-        assertTrue(checkoutButton.isDisplayed());
-    } */
+        WebElement swchbtn = shopPage.getSwitchToPassesButton();
+        swchbtn.click();
+        assertTrue(shopPage.getBodyText().contains("Havi bérlet"));
+    }
+    
+    @Test
+    public void testSwitchingtoProducts() {
+        ShopPage shopPage = new ShopPage(driver);
+        shopPage.navigate("http://liftzone.hu/?o=shop&view=passes");
+        WebElement swchbtn = shopPage.getSwitchToProductsButton();
+        swchbtn.click();
+        assertTrue(shopPage.getBodyText().contains("Whey Pink - LiftZone"));
+    }
+    
 }

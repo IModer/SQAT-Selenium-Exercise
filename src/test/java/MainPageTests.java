@@ -1,6 +1,7 @@
 import org.junit.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -63,22 +64,6 @@ public class MainPageTests extends BaseTest {
         assertTrue("Cart popup should be visible", cartPopup.isDisplayed());
     }
 
-    // If our cart is empty nothing happens
-    /*
-    
-    @Test
-    public void testPurchaseButtonSubmitsPurchaseForm() {
-        MainPage mainPage = new MainPage(driver);
-        WebElement cartButton = mainPage.getKorasGomb();
-        cartButton.click();
-        WebElement purchaseButton = mainPage.getVasarlasGomb();
-        wait.until(ExpectedConditions.elementToBeClickable(purchaseButton));
-        purchaseButton.click();
-        WebElement confirmationMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("purchaseConfirmation")));
-        assertTrue("Purchase confirmation should be visible", confirmationMessage.isDisplayed());
-    }
-    */
-
     @Test
     public void testLanguageSelectorChangesLanguage() {
         MainPage mainPage = new MainPage(driver);
@@ -106,4 +91,26 @@ public class MainPageTests extends BaseTest {
         
     }
 
+    public void testGetPageTitle() {
+        MainPage mainPage = new MainPage(driver);
+        assertTrue(driver.getTitle().contains("LiftZone"));
+    }
+
+/*
+This doestn wanna work even tho its oerfectly valid, it gets "unexpected crash"d
+// Test writing int the form and sending
+@Test
+public void testWritingToFeedbackForm() {
+    MainPage mainPage = new MainPage(driver);
+    WebElement field = mainPage.getMsgField();
+    Actions moveAction = new Actions(driver);
+    // We move over to the textbox
+    moveAction.moveToElement(field).perform();
+    
+    WebElement btn = mainPage.getKuldesGomb();
+    mainPage.fillForm("kistarcsa@gmail.com", "legjobb hely");
+    assertTrue(field.getText().contains("hely"));
+    assertPageNavigation(btn, "https://liftzone.hu/");
+}
+*/
 }
