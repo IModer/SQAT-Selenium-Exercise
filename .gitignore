@@ -1,3 +1,4 @@
+bin
 selenium-xpaths.txt
 .gradle
 build
@@ -9,3 +10,4 @@ setup
 cred
 misc.md
 .vscode
+seluser
