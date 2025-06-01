@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriver.*;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -21,7 +22,28 @@ public abstract class BaseTest {
     @Before
     public void setup() throws MalformedURLException {
         ChromeOptions options = new ChromeOptions();
-        driver = new RemoteWebDriver(new URL("http://selenium:4444/wd/hub"), options);
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--window-size=1080,720");
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+        driver = new RemoteWebDriver(new URL("http://selenium:4444/wd/hub"), capabilities);
+        driver.manage().window().maximize();
+        wait = new WebDriverWait(driver, 50);
+    }
+
+    public void setupWithMobile() throws MalformedURLException {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("Android"); // Note: case-sensitive in some environments
+
+        // Additional Appium-specific capabilities if needed
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("platformName", "Android");
+        capabilities.setCapability("deviceName", "Android Emulator");
+        capabilities.setCapability("browserName", "Chrome");
+        capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+
+        driver = new RemoteWebDriver(new URL("http://selenium:4444/wd/hub"), capabilities);
         driver.manage().window().maximize();
         wait = new WebDriverWait(driver, 50);
     }
