@@ -1,13 +1,11 @@
 import org.junit.*;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class LoginTests extends BaseTest {
+
+public class LoginPageTests extends BaseTest {
 
     @Test
     public void testLoginWithGoodCred() {
@@ -36,6 +34,21 @@ public class LoginTests extends BaseTest {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.login("", "");
         Assert.assertTrue(loginPage.getBodyText().contains("Helytelen belépési adatok!!"));
+    }
+
+    @Test
+    public void testLoginPagefourofour() {
+        // We start from the login page and log in
+        LoginPage loginPage = new LoginPage(driver);
+        UserPage userPage = loginPage.login("pistike-teszt-user", "jelszojelszo1");
+        // Then navigate back
+        driver.navigate().back();
+        // Wait untill we are back at the login page
+        String expectedUrl = "https://liftzone.hu/?o=loginform";
+        wait.until(ExpectedConditions.urlToBe(expectedUrl));
+        assertNotEquals("URL didn't change to " + expectedUrl, expectedUrl, driver.getCurrentUrl());
+        // Test if we 404d
+        assertTrue(loginPage.getBodyText().contains("404"));
     }
 
 }
