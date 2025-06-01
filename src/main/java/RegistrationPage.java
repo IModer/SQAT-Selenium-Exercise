@@ -1,21 +1,13 @@
-
-
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.Keys;
 
-// http://liftzone.hu/?o=registerform
 class RegistrationPage extends PageBase {
 
     public RegistrationPage(WebDriver driver) {
         super(driver);
+        navigate("http://liftzone.hu/?o=registerform");
     }
 
     public WebElement getRegisterUsernameField() {
@@ -45,6 +37,11 @@ class RegistrationPage extends PageBase {
     public WebElement getCaptchaField() {
         return this.waitAndReturnElement(By.xpath("//input[contains(@name,'user_eredmeny')]"));
     }
+
+
+    public WebElement getCaptchaText() {
+        return this.waitAndReturnElement(By.xpath("//label[contains(@class,'form-label')][@for='InputCaptcha']"));
+    }
     
     public WebElement getElfogadasCheckbox() {
         return this.waitAndReturnElement(By.xpath("//input[contains(@id,'elfogadas')]"));
@@ -54,5 +51,33 @@ class RegistrationPage extends PageBase {
         return this.waitAndReturnElement(By.xpath("//form[@action='actions/regisztracio_feldolgozas.php']//button[contains(@class, 'btn')][@type='submit']"));
     }
 
-           
+    // Registers a user with teh given credentials
+    public void register(String username, String email, String password, String date) {
+            clearAndSendKeys(this.getRegisterUsernameField(),username);
+            clearAndSendKeys(this.getRegisterEmailField(),email);
+            clearAndSendKeys(this.getRegisterPasswordField(),password);
+            clearAndSendKeys(this.getPasswordRetypeField(),password);
+            this.getRegisterDateField().sendKeys(date);
+            // We solve the captcha
+            String captcha = this.getCaptchaText().getText();
+            System.out.println(captcha);
+            String captcha1 = captcha.split(":")[1].split("\\+")[0].trim();
+            System.out.println(captcha1);
+            String captcha2 = captcha.split(":")[1].split("\\+")[1].split("=")[0].trim();
+            System.out.println(captcha2);
+            String sol = Integer.toString((Integer.parseInt(captcha1) + Integer.parseInt(captcha2)));
+            System.out.println(sol);
+            WebElement captchaField = this.getCaptchaField();
+            
+            //csak a legújabb seleniumba van scroll
+            //¯\_(ツ)_/¯
+        
+            clearAndSendKeys(captchaField, sol);
+            getElfogadasCheckbox().sendKeys(Keys.SPACE);
+            this.getRegisterUsernameField().sendKeys(Keys.ENTER);
+            /* 
+            getRegisterKuldesGomb().click();
+            */
+            
+    }
 }

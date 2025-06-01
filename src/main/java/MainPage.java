@@ -1,23 +1,8 @@
 
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 
-/**
-* MainPage is the class responsible for providing an interface to testthe main page of our website
-* under test.
-* <p>
-* @author      Korpa Peter
-* @author      Hudoba Peter
-* @since       1.0
-*/
 class MainPage extends PageBase {
 
     public MainPage(WebDriver driver) {
@@ -100,6 +85,12 @@ class MainPage extends PageBase {
 
     public WebElement getKuldesGomb() {
         return this.waitAndReturnElement(By.xpath("//form[contains(@action,'actions/uzenet_kuldes.php')]//button[contains(@class,'btn')][@type='submit']"));
+    }
+
+    // Fills out the form on the botton of the page, doesnt send it 
+    public void fillForm(String emailS, String msgS) {
+        clearAndSendKeys(this.getEmailField(), emailS);
+        clearAndSendKeys(this.getMsgField(), msgS);
     }
 
 }

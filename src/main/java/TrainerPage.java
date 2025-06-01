@@ -1,20 +1,12 @@
-
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 
-// http://liftzone.hu/?o=registerform
 class TrainerPage extends PageBase {
 
-    public TrainerPage(WebDriver driver) {
+    public TrainerPage(int i, WebDriver driver) {
         super(driver);
+        navigate("https://liftzone.hu/?o=edzok&eid=" + i);
     }
     
     // Trainer name
@@ -40,6 +32,30 @@ class TrainerPage extends PageBase {
     // Contact trainer button
     public WebElement getContactTrainerButton() {
         return this.waitAndReturnElement(By.xpath("//button[contains(@class, 'contact-trainer')]"));
+    }
+
+    public WebElement getTrainerNameField() {
+        return this.waitAndReturnElement(By.xpath("//input[contains(@name,'mentes_nev')]"));
+    }
+
+    // Feedback TextArea
+    public WebElement getTrainerFeedbackTextArea() {
+        return this.waitAndReturnElement(By.xpath("//textarea[contains(@id,'komment')]"));
+    }
+
+    // Feedback Send Button for text area
+    public WebElement getTrainerFeedbackSendButton() {
+        return this.waitAndReturnElement(By.xpath("//button[contains(@id,'elkuld')]"));
+    }
+
+    // Get the ith Star
+    public WebElement getTrainerStarRating(int i) {
+        return this.waitAndReturnElement(By.xpath("(//form[contains(@id,'rating')]//div[contains(@class,'stars')])//span[" + i + "]"));
+    }
+
+    // Get the Star Submit button
+    public WebElement getTrainerRatingSubmitButton(int i) {
+        return this.waitAndReturnElement(By.xpath("//form[contains(@id,'rating')]//button"));
     }
 
 }

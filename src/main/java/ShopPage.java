@@ -1,24 +1,15 @@
-
-
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 
-// http://liftzone.hu/?o=registerform
 class ShopPage extends PageBase {
 
     public ShopPage(WebDriver driver) {
         super(driver);
+        navigate("http://liftzone.hu/?o=shop");
     }
 
-    // Product categories
+    // Product categories as in https://1lab.dev/Cat.Instances.Product.html#product-categories
     public WebElement getProductCategory(String categoryName) {
         return this.waitAndReturnElement(By.xpath("//div[contains(@class, 'product-category') and text()='" + categoryName + "']"));
     }
@@ -43,5 +34,14 @@ class ShopPage extends PageBase {
         return this.waitAndReturnElement(By.xpath("//a[contains(@href, 'checkout')]//button[contains(@class, 'checkout')]"));
     }
 
+    //Switch to passes button 
+    public WebElement getSwitchToPassesButton() {
+        return this.waitAndReturnElement(By.xpath("//a[contains(@href,'passes')]"));
+    }
+    
+    //Switch to passes button 
+    public WebElement getSwitchToProductsButton() {
+        return this.waitAndReturnElement(By.xpath("//a[contains(@href,'?o=shop&view=products')]"));
+    }
            
 }
