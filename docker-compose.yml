@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   ubuntu:
     build: .
@@ -21,6 +19,7 @@ services:
     links:
       - selenium
 
+  # selenium/standalone-chrome-debug:3.11.0-californium
   selenium:
     image: selenium/standalone-chrome-debug:3.11.0-californium
     environment:
@@ -30,3 +29,7 @@ services:
     ports:
       - "4444:4444"
       - "5900:5900"
+    volumes:
+      - type: bind
+        source: ./src/test/data
+        target: /home/
